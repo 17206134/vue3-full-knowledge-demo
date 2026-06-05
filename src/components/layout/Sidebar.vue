@@ -28,51 +28,51 @@
         active-class="!bg-green-600 !text-white"
       >
         <el-icon class="mr-2">
-          <component :is="item.meta.icon" />
+          <component :is="item.meta?.icon" />
         </el-icon>
-        <span>{{ item.meta.title }}</span>
+        <span>{{ item.meta?.title }}</span>
       </router-link>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-/**
- * 侧边栏菜单逻辑
- * 核心思路：从路由配置中提取所有非hidden路由，按group字段分组
- */
-import { computed } from 'vue'
-import { routes } from '@/router'
-import type { RouteRecordRaw } from 'vue-router'
+  /**
+   * 侧边栏菜单逻辑
+   * 核心思路：从路由配置中提取所有非hidden路由，按group字段分组
+   */
+  import { computed } from 'vue'
+  import { routes } from '@/router'
+  import type { RouteRecordRaw } from 'vue-router'
 
-/** 菜单分组类型 */
-interface MenuGroup {
-  name: string
-  items: RouteRecordRaw[]
-}
+  /** 菜单分组类型 */
+  interface MenuGroup {
+    name: string
+    items: RouteRecordRaw[]
+  }
 
-/**
- * 计算属性：将路由按group分组
- * 过滤掉redirect路由和hidden路由
- */
-const menuGroups = computed<MenuGroup[]>(() => {
-  const groups: Record<string, RouteRecordRaw[]> = {}
+  /**
+   * 计算属性：将路由按group分组
+   * 过滤掉redirect路由和hidden路由
+   */
+  const menuGroups = computed<MenuGroup[]>(() => {
+    const groups: Record<string, RouteRecordRaw[]> = {}
 
-  routes.forEach((route) => {
-    // 跳过无meta或redirect的路由
-    if (!route.meta || route.redirect) return
-    // 跳过标记为hidden的路由
-    const meta = route.meta as { title: string; group: string; hidden?: boolean }
-    if (meta.hidden) return
+    routes.forEach((route) => {
+      // 跳过无meta或redirect的路由
+      if (!route.meta || route.redirect) return
+      // 跳过标记为hidden的路由
+      const meta = route.meta as { title: string; group: string; hidden?: boolean }
+      if (meta.hidden) return
 
-    const groupName = meta.group
-    if (!groups[groupName]) {
-      groups[groupName] = []
-    }
-    groups[groupName].push(route)
+      const groupName = meta.group
+      if (!groups[groupName]) {
+        groups[groupName] = []
+      }
+      groups[groupName].push(route)
+    })
+
+    // 转换为数组，保持分组顺序
+    return Object.entries(groups).map(([name, items]) => ({ name, items }))
   })
-
-  // 转换为数组，保持分组顺序
-  return Object.entries(groups).map(([name, items]) => ({ name, items }))
-})
 </script>
