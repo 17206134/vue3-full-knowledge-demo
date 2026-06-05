@@ -21,7 +21,13 @@ export interface RouteMeta {
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/template-basics'
+    redirect: '/home'
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: () => import('@/pages/home/index.vue'),
+    meta: { title: '项目首页', icon: 'HomeFilled', group: '首页' }
   },
   {
     path: '/template-basics',
