@@ -1,0 +1,27 @@
+/**
+ * @file src/styles/tailwind.css
+ * @description TailwindCSS全局样式入口文件
+ * 引入Tailwind的三大核心层：base(基础重置)、components(组件类)、utilities(工具类)
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 全局自定义样式 */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 代码示例区域样式 */
+.demo-section {
+  @apply border border-gray-200 rounded-lg p-4 mb-4;
+}
+
+.demo-title {
+  @apply text-lg font-bold text-gray-800 mb-2;
+}
+
+.demo-desc {
+  @apply text-sm text-gray-500 mb-3;
+}
